@@ -4,19 +4,18 @@
 #include"src/Common/Types.h"
 #include"src/Common/Notify.h"
 #include<QString>
- class Model :public Observable
+class Model :public Observable
  {
  public:
- vector<QString>* getPaths();
- void setPaths(const vector<QString>&paths);
- void addPath(const QString &path);
+  vector<QString>getPaths();
+// void setPaths(const shared_ptr<vector<QString>>&paths);
+ void addPath(const vector<QString> path);
 
 
 private:
  vector<QString> Paths;
 
  };
-
 
 
 #endif
