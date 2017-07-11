@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     pViewModel->addObserver(pMainWindows);
 
     pMainWindows->show();
-
+    //something useful
     return a.exec();
 
 
