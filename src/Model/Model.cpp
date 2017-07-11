@@ -1,26 +1,16 @@
 #include"src/Model/Model.h"
-void Model::setPaths(const vector<QString>&paths)
+void Model::addPath(const vector<QString> path)
 {
-    Model::Paths=paths;
-    //Params params;
-    //params.settype(Notify::AddMusicToList);
-    //notify(params);
+    for (size_t i = 0; i < path.size(); i++)
+    {
+        QString temp = path.at(i);
+        Paths.push_back(temp);
+    }
     Notify noti;
     noti.settype(Notifys::AddMusicToList);
     notify(noti);
 }
-
-void Model::addPath(const QString &path)
+vector<QString> Model::getPaths()
 {
-    Model::Paths.push_back(path);
-   // Params params;
-   // params.settype(Notify::AddMusicToList);
-   // notify(params);
-    Notify noti;
-    noti.settype(Notifys::AddMusicToList);
-    notify(noti);
-}
-vector<QString>* Model::getPaths()
-{
-    return &Paths;
+    return Paths;
 }
