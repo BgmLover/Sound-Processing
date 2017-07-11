@@ -25,7 +25,6 @@ HEADERS  += src/View/mainwindow.h \
     src/Common/Observable.h \
     src/Common/Observer.h \
     src/Common/Params.h \
-    src/Viewmodel/Commands/MusicPlayCommand.h \
     src/Common/Types.h \
     src/Common/Notify.h \
     src/Viewmodel/Commands/AddMuiscToListCommand.h
