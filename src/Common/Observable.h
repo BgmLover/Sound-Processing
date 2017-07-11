@@ -2,8 +2,8 @@
 #define OBSERVABLE
 
 #include <memory>
-#include "Observer.h"
-#include "Notify.h"
+#include "src/Common/Observer.h"
+#include "src/Common/Notify.h"
 
 using namespace std;
 
