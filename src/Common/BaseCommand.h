@@ -1,18 +1,21 @@
 #ifndef BASECOMMAND
 #define BASECOMMAND
 #include"src/Common/Params.h"
-#include"src/Model/Model.h"
+#include<memory>
+
+
+class ViewModel;
 class BaseCommand
 {
 public:
-    BaseCommand(const shared_ptr<Model> &pModel): pModel(pModel){}
-    void setParams(const Params &params){BaseCommand::params=params;}
+    void setParams(const Params &p){params=p;}
+    void setViewModel( ViewModel *pvm) { pViewModel = pvm; }
     virtual void exec()=0;
-    bool send=false;
-    shared_ptr<Model> pModel;
+
+protected:
     Params params;
+    ViewModel *pViewModel;
 
 
 };
-
 #endif
