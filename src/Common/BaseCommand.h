@@ -16,6 +16,5 @@ protected:
     Params params;
     ViewModel *pViewModel;
 
-
 };
 #endif
