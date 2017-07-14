@@ -28,4 +28,5 @@ signals:
     void frequencyReturn(double);
 };
 
+
 #endif // FREQUENCY_H
