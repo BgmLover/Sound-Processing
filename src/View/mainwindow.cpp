@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     playList = shared_ptr<QMediaPlaylist>(new QMediaPlaylist);
     player = shared_ptr<QMediaPlayer>(new QMediaPlayer);
     ui->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -44,6 +45,10 @@ void MainWindow::update(Notify noti)
                  }
              }
              break;
+       case Notifys::ChangeFreq:
+             {
+                 qDebug()<<"Frequency has changed in view!";
+             }
          }
     case Notifys::failed:
          {
@@ -61,25 +66,45 @@ void MainWindow::playerinit()
     connect(player.get(),player->durationChanged,this,slot_rangechanged);//滑块的范围随着歌曲改变而改变
     connect(playList.get(),playList->currentIndexChanged,this,slot_updateList);
 }
-
-void MainWindow::on_PlayButton_clicked()
+void MainWindow::mainwindowinit()
 {
-       playList->setCurrentIndex(ui->listWidget->currentRow());
-       player->play();
-       //qDebug()<<player->mediaStream()->readAll().size();
-
-       //显示当前播放歌曲
-       QString f=QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
-       f=f.split("\\").last();
-       ui->MusicName->setText(f);
+    connect(ui->actionTone,SIGNAL(triggered()),this,SLOT(cmdTone()));
+    connect(&tone,SIGNAL(toneReturn(QString)),this,SLOT(getTone(QString)));
+    connect(ui->actionFrequency,SIGNAL(triggered()),this,SLOT(cmdFrequency()));
+    connect(&frequency,SIGNAL(frequencyReturn(double)),this,SLOT(getFrequency(double)));
 }
-void MainWindow::on_PauseButton_clicked()
+void MainWindow::cmdFrequency()
 {
-    player->pause();
+    frequency.exec();
 }
-void MainWindow::on_stopButton_clicked()
+//获得频率值，执行命令
+void MainWindow::getFrequency(double freValue)
 {
-    player->stop();
+    qDebug()<<"显示获得的频率值"<<freValue;
+    QString path=QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
+    vector<QString>paths;
+    paths.push_back(path);
+    Params param;
+    param.setfrequency(freValue);
+    param.setstring(paths);
+    //qDebug() << "mainwindow's param.path[0]:" << param.path[0] << endl;
+    frequencyChangeCommand->setParams(param);
+    qDebug() << "显示中呵呵哒。"<< endl;
+    frequencyChangeCommand->exec();
+    qDebug() << "显示完毕呵呵哒。"<< endl;
+}
+//获得音调值，执行命令
+void MainWindow::getTone(QString tonevalue)
+{
+    qDebug()<<"显示获得的音调值"<<tonevalue;
+    QString path=QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
+    vector<QString>paths;
+    paths.push_back(path);
+    Params param;
+    param.setstring(paths);
+    param.settone(tonevalue);
+    toneChangeCommand->setParams(param);
+    toneChangeCommand->exec();
 }
 
 //打开文件（可同时打开多个）
@@ -99,6 +124,32 @@ void MainWindow::on_AddMuiscButton_clicked()
     addMusicToListCommand->setParams(param);
     addMusicToListCommand->exec();
 }
+void MainWindow::cmdTone()
+{
+      tone.exec();
+}
+
+void MainWindow::on_PlayButton_clicked()
+{
+      // playList->setCurrentIndex(ui->listWidget->currentRow());
+       player->play();
+       //qDebug()<<player->mediaStream()->readAll().size();
+
+       //显示当前播放歌曲
+       QString f=QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
+       f=f.split("\\").last();
+       ui->MusicName->setText(f);
+}
+void MainWindow::on_PauseButton_clicked()
+{
+    player->pause();
+}
+void MainWindow::on_stopButton_clicked()
+{
+    player->stop();
+}
+
+
 
 //滑块调整进度
 void MainWindow::on_horizontalSlider_valueChanged(int value)

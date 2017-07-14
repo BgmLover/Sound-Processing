@@ -1,6 +1,6 @@
 #ifndef OBSERVER
 #define OBSERVER
-#include "Params.h"
+#include "src/Common/Params.h"
 #include"src/Common/Notify.h"
 class Observer
 {

@@ -11,14 +11,17 @@ int main(int argc, char *argv[])
 
     //bind
     pMainWindows->setplaylist(pViewModel->getplayList());
-    pMainWindows->bindplaylist();
+    pMainWindows->playerinit();
+    pMainWindows->mainwindowinit();
     pMainWindows->setaddMusicToListCommand(pViewModel->getAddMusicToListCommand());
-
+    pMainWindows->settoneChangeCommand(pViewModel->getToneChangeCommand());
+    pMainWindows->setfrequencyChangeCommand(pViewModel->getFrequencyChangeCommand());
+    //add observer
     pModel->addObserver(pViewModel);
     pViewModel->addObserver(pMainWindows);
 
     pMainWindows->show();
-    //something useful
+
     return a.exec();
 
 

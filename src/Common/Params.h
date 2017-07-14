@@ -19,13 +19,17 @@ public:
        void setcurrentindex(const int &index){this->currentindex=index;}
        vector<QString>getpath(){return path;}
        void setstring(const vector<QString> &string){path=string;}
-       //int gettype(){return type;}
-      // void settype(const int &type){this->type=type;}
+       void settone(const QString &s){this->tone=s;}
+       QString gettone(){return tone;}
+       void setfrequency(const double &d){frequency=d;}
+       double getfrequency(){return frequency;}
 
 
-    private:
-        int currentindex;   //列表中的顺序
+    //private:
+       int currentindex;   //列表中的顺序
        vector<QString> path;
+       QString tone;
+       double frequency;
     };
 
 #endif

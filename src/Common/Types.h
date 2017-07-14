@@ -2,8 +2,9 @@
 #define TYPES
 namespace Notifys
 {
-enum{AddMusicToList};
+enum{AddMusicToList,AddToListFinished,failed,ChangeTone,ChangeFreq};
 }
+
 
 
 #endif
