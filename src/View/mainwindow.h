@@ -14,6 +14,9 @@
 #include"src/View/tone.h"
 #include"src/View/frequency.h"
 #include<QObject>
+#include"src/View/Plot/fmod.h"
+#include"src/View/Plot/fmod_errors.h"
+#include<QTimer>
 namespace Ui {
 class MainWindow;
 }
@@ -62,6 +65,14 @@ private:
     shared_ptr<BaseCommand> addMusicToListCommand,toneChangeCommand,frequencyChangeCommand;
     Tone tone;
     Frequency frequency;
+
+    QTimer timer;
+    QVector<float>wav;
+
+    FMOD_SYSTEM *system;
+    FMOD_SOUND *sound;
+    FMOD_CHANNEL *channel;
+    FMOD_RESULT result;
 };
 
 #endif // MAINWINDOW_H
