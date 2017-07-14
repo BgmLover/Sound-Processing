@@ -75,6 +75,7 @@ HEADERS  += src/View/mainwindow.h \
     src/View/Plot/fmod_errors.h \
     src/View/Plot/curveplot.h
 
+
 FORMS    += src/View/mainwindow.ui \
     src/View/tone.ui \
     src/View/frequency.ui
