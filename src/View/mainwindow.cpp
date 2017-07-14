@@ -5,12 +5,24 @@
 #include<QDebug>
 #include<QTime>
 #include<strstream>
+#include <QTextStream>
+#include <QDateTime>
+#include <QMessageBox>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     playList = shared_ptr<QMediaPlaylist>(new QMediaPlaylist);
     player = shared_ptr<QMediaPlayer>(new QMediaPlayer);
+    result = FMOD_System_Create(&system);
+    result = FMOD_System_Init(system, 32, FMOD_INIT_NORMAL, 0);
+    sound = 0;
+    channel = 0;
+    wav.resize(2048);
+
+    ui->ploter->setAdjustVal(0.5);
+    ui->ploter->outPut();
+    ui->ploterAll->Pen = QPen(QBrush(QColor(89, 172, 255)), 1);
     ui->setupUi(this);
 
 }
@@ -33,10 +45,13 @@ void MainWindow::update(Notify noti)
              for(int i=0;i<playList->mediaCount();i++)
              {
 
-                 QString path=QDir::toNativeSeparators(playList->media(i).canonicalUrl().toLocalFile());
+                // QString path=QDir::toNativeSeparators(playList->media(i).canonicalUrl().toLocalFile());
+                 QString path=playList->media(i).canonicalUrl().toLocalFile();
                  if(!path.isEmpty())
                  {
-                     QString filename=path.split("\\").last();
+
+                     QString filename=path.split("/").last();
+                     //qDebug()<<filename;
                      QString index;
                      index=index.number(i+1);
                      index=index+".   ";
@@ -45,14 +60,16 @@ void MainWindow::update(Notify noti)
                  }
              }
              break;
-       case Notifys::ChangeFreq:
-             {
-                 qDebug()<<"Frequency has changed in view!";
-             }
          }
-    case Notifys::failed:
+       case Notifys::ChangeFreq:
+          {
+              qDebug()<<"Frequency has changed in view!";
+              break;
+          }
+       case Notifys::failed:
          {
              qDebug()<<"error!";
+             break;
          }
     }
 
