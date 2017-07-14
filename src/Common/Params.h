@@ -24,7 +24,6 @@ public:
        void setfrequency(const double &d){frequency=d;}
        double getfrequency(){return frequency;}
 
-
     //private:
        int currentindex;   //列表中的顺序
        vector<QString> path;
