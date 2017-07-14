@@ -36,7 +36,8 @@ SOURCES += src/main.cpp \
     src/Common/soundTouch/RunParameters.cpp \
     src/Common/soundTouch/SoundTouch.cpp \
     src/Common/soundTouch/sse_optimized.cpp \
-    src/Common/soundTouch/TDStretch.cpp
+    src/Common/soundTouch/TDStretch.cpp \
+    src/View/Plot/curveplot.cpp
 
 HEADERS  += src/View/mainwindow.h \
     src/Model/Model.h \
@@ -69,7 +70,10 @@ HEADERS  += src/View/mainwindow.h \
     src/Common/soundTouch/RateTransposer.h \
     src/Common/soundTouch/RunParameters.h \
     src/Common/soundTouch/soundtouch_config.h \
-    src/Common/soundTouch/TDStretch.h
+    src/Common/soundTouch/TDStretch.h \
+    src/View/Plot/fmod.h \
+    src/View/Plot/fmod_errors.h \
+    src/View/Plot/curveplot.h
 
 FORMS    += src/View/mainwindow.ui \
     src/View/tone.ui \
