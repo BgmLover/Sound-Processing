@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/fre.png</file>
+        <file>images/freq.png</file>
+        <file>images/MiniAudio.png</file>
+        <file>images/tone.png</file>
+        <file>images/clear.png</file>
+        <file>images/file.png</file>
+        <file>images/list.png</file>
+        <file>images/minus.png</file>
+        <file>images/pause.png</file>
+        <file>images/play.png</file>
+        <file>images/plus.png</file>
+        <file>images/plus316.png</file>
+        <file>images/stop.png</file>
+        <file>images/last.png</file>
+        <file>images/next.png</file>
+        <file>images/qt.png</file>
+        <file>images/before.png</file>
+        <file>images/before1.png</file>
+    </qresource>
+</RCC>
