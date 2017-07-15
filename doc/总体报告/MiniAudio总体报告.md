@@ -22,13 +22,13 @@
 
 以下为version1.01版本的界面与功能实现:
 
-启动界面：  ![主界面](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/before.png)
+启动界面：  ![启动界面](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/before.png)
 
 ##### 3.1 音频的添加播放
 
 点击添加音乐可以从本地添加音乐到列表中。
 
-  ![36499BA4-EA16-4736-A759-AD686CEC5EBF](/Users/apple/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/641119121/QQ/Temp.db/36499BA4-EA16-4736-A759-AD686CEC5EBF.png)
+  ![添加音乐结果](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/添加歌曲并播放.png)
 
 点击菜单栏上的按钮可以实现播放、暂停、上一首／下一首等功能。
 
