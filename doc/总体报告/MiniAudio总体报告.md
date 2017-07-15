@@ -22,13 +22,13 @@
 
 以下为version1.01版本的界面与功能实现:
 
-启动界面：  ![启动界面](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/before.png)
+启动界面：  ![启动界面](./imageReport/before.png)
 
 ##### 3.1 音频的添加播放
 
 点击添加音乐可以从本地添加音乐到列表中。
 
-  ![添加音乐结果](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/添加歌曲并播放.png)
+  ![添加音乐结果](./imageReport/添加歌曲并播放.png)
 
 点击菜单栏上的按钮可以实现播放、暂停、上一首／下一首等功能。
 
@@ -36,15 +36,15 @@
 
 点击"OK"按钮后将当前播放音频进行音调变化处理，处理完的结果保存到用户指定的路径，并自动添加到歌单。
 
- ![设置音调值](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/选择音调值.png) 
- ![音调改变后](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/音调改变后.png)
+ ![设置音调值](./imageReport/选择音调值.png) 
+ ![音调改变后](./imageReport/音调改变后.png)
 
 ##### 3.3 频率的变化处理
 
 点击"OK"按钮后将当前播放音频进行频率变化处理，处理完的结果保存到用户指定的路径，并自动添加到歌单。
 
- ![设置频率值](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/选择频率值.png)
- ![频率改变后](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/频率改变后.png)
+ ![设置频率值](./imageReport/选择频率值.png)
+ ![频率改变后](./imageReport/频率改变后.png)
 
 ##### 3.4 波形图的显示
 
