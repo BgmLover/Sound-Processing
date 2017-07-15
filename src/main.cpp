@@ -1,6 +1,8 @@
 #include "src/View/mainwindow.h"
 #include <QApplication>
-
+#include<QSplashScreen>
+#include<QElapsedTimer>
+#define SPLAHSCREENTIME 2000
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -20,8 +22,14 @@ int main(int argc, char *argv[])
     pModel->addObserver(pViewModel);
     pViewModel->addObserver(pMainWindows);
 
+    QSplashScreen *screen=new QSplashScreen(QPixmap(":/images/images/before.png"));
+    screen->show();
+    QElapsedTimer timer;
+    timer.start();
+    while(timer.elapsed()<SPLAHSCREENTIME)
+        a.processEvents();
+    delete screen;
     pMainWindows->show();
-
     return a.exec();
 
 
