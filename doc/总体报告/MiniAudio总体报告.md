@@ -22,7 +22,7 @@
 
 以下为version1.01版本的界面与功能实现:
 
-启动界面：  ![主界面](/Sound-Processing/doc/总体报告/imageReport/before.png)
+启动界面：  ![主界面](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/before.png)
 
 ##### 3.1 音频的添加播放
 
