@@ -22,7 +22,7 @@
 
 以下为version1.01版本的界面与功能实现:
 
-启动界面：  ![5FD141DE-9E2E-4C07-8CDF-D7F974E1DC2D](/Users/apple/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/641119121/QQ/Temp.db/5FD141DE-9E2E-4C07-8CDF-D7F974E1DC2D.png)
+启动界面：  ![5FD141DE-9E2E-4C07-8CDF-D7F974E1DC2D](Sound-Processing/doc/总体报告/imageReport/before.png)
 
 ##### 3.1 音频的添加播放
 
