@@ -17,5 +17,4 @@ public:
         pViewModel->changeFreq(params.path[0],params.frequency);
     }
 };
-
 #endif // FREQUENCYCHANGECOMMAND_H
