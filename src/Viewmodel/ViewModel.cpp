@@ -50,6 +50,14 @@ ViewModel::ViewModel()
         case Notifys::ChangeFreq:
         {
          qDebug()<<"Frequency has changed in viewModel!";
+         playList->clear();
+         vector<QString> s = pModel->getPaths();
+         size_t m = s.size();
+         for (i = 0; i<m; i++)
+            {
+                 QString path = pModel->getPaths().at(i);
+                 playList->addMedia(QUrl::fromLocalFile(path));
+            }
          Notify noti;
          noti.settype(Notifys::ChangeFreq);
          notify(noti);
@@ -69,8 +77,8 @@ ViewModel::ViewModel()
 
  void ViewModel::changeFreq(const QString &path, const double &freq)
  {
-    qDebug() << "viewModel is changing..."<< endl;
-    qDebug()<<pModel.use_count();
+    qDebug() << "viewModel is changing...";
+   // qDebug()<<pModel.use_count();
     if(pModel.get()!=nullptr)
         qDebug() << "pModel exists!\n";
     pModel->changeFreq(path,freq);
