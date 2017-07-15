@@ -36,17 +36,19 @@
 
 点击"OK"按钮后将当前播放音频进行音调变化处理，处理完的结果保存到用户指定的路径，并自动添加到歌单。
 
- ![4D1AEE30-681D-4878-B079-41BE161F0B6A](/Users/apple/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/641119121/QQ/Temp.db/4D1AEE30-681D-4878-B079-41BE161F0B6A.png) 
+ ![设置音调值](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/选择音调值.png) 
+ ![音调改变后](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/音调改变后.png)
 
 ##### 3.3 频率的变化处理
 
 点击"OK"按钮后将当前播放音频进行频率变化处理，处理完的结果保存到用户指定的路径，并自动添加到歌单。
 
- ![2AF5C6B9-5D65-43FB-AAD6-F2D1665F6471](/Users/apple/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/641119121/QQ/Temp.db/2AF5C6B9-5D65-43FB-AAD6-F2D1665F6471.png) 
+ ![设置频率值](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/选择频率值.png)
+ ![频率改变后](https://github.com/BgmLover/Sound-Processing/tree/master/doc/%E6%80%BB%E4%BD%93%E6%8A%A5%E5%91%8A/imageReport/频率改变后.png)
 
 ##### 3.4 波形图的显示
 
-​	如3.1中图中显示。
+ -如之前图中所示
 
 
 
