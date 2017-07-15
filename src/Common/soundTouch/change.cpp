@@ -14,7 +14,13 @@
 #include <map>
 //#include <windows.h>
 #include <vector>
-
+#include<QString>
+#include<QStringList>
+#include<QDebug>
+#include <QFileDialog>
+#include <QFileInfo>
+#include<QObject>
+#include<QUrl>
 using namespace soundtouch;
 using namespace std;
 #define BUFF_SIZE           6720
@@ -102,7 +108,7 @@ void WriteProcessSample(WavInFile* wavin, WavOutFile* wavout, SoundTouch* pSound
 //    }
 //    return 0;
 //}
-void change_once(const string &filestress,const string &a, const double b) {
+QString change_once(const string &filestress,const string &a, const double b) {
     int i,j;
     WavInFile *wavin;
     WavOutFile *wavout;
@@ -111,7 +117,21 @@ void change_once(const string &filestress,const string &a, const double b) {
     pSoundTouch = new SoundTouch;
     pSoundTouch->setSampleRate(wavin->getSampleRate());
     pSoundTouch->setChannels(wavin->getNumChannels());
-    wavout = new WavOutFile("D:\CloudMusic/out3.wav", wavin->getSampleRate(), wavin->getNumBits(), wavin->getNumChannels());
+    QString initialName=QDir::homePath();
+    //qDebug()<<"1";
+    QString path =QFileDialog::getSaveFileName(nullptr, QObject::tr("选择文件"), initialName,QObject::tr("*.wav"));
+
+    /*qDebug()<<"2";
+    QString name;
+    name=name.fromStdString(filestress);
+    name=name.split("\\").last();
+    name="output"+name;
+    name="F:\\QTpractice\\MiniAudio\\MiniAudio\\OutPutWaves/"+name;*/
+    qDebug()<<path;
+    string n=path.toStdString();
+    const char *s=n.c_str();
+   // addr="OutPutWaves/"+"D:\CloudMusic/out3.wav"
+    wavout = new WavOutFile(s, wavin->getSampleRate(), wavin->getNumBits(), wavin->getNumChannels());
     InitToneMap();
     string tone = a;
     j = a.size();
@@ -127,7 +147,7 @@ void change_once(const string &filestress,const string &a, const double b) {
     delete wavin;
     delete wavout;
     delete pSoundTouch;
-
+    return path;
 }
 void change_more(const string &filestress,const vector<string>&a,const vector<double> &b) {
     int i,c,j,h;

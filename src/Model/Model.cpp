@@ -37,8 +37,12 @@ void Model::changeTone(const QString &path, const QString &tone)
     const double freq = 1.0;
     const string addr = path.toStdString();
     const string temp = tone.toStdString();
-    change_once(addr, temp, freq);
-    qDebug() << "Tone is changing..." << endl;
+
+    QString tem=change_once(addr, temp, freq);
+    qDebug() << "Tone is changed" << endl;
+    vector<QString>tems;
+    tems.push_back(tem);
+    addPath(tems);
     Notify noti;
     noti.settype(Notifys::ChangeTone);
     notify(noti);

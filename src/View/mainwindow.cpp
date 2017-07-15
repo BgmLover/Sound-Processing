@@ -1,13 +1,14 @@
 #include "src/View/mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QFileInfo>
 #include<QDebug>
-#include<QTime>
+#include<QTimer>
+#include<QDateTime>
 #include<strstream>
 #include <QTextStream>
 #include <QDateTime>
 #include <QMessageBox>
+#include<QTime>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -19,10 +20,10 @@ MainWindow::MainWindow(QWidget *parent) :
     sound = 0;
     channel = 0;
     wav.resize(2048);
-
+    ui->ploter=new CurvePlot();
+    ui->ploterAll=new CurvePlot();
     ui->ploter->setAdjustVal(0.5);
-    ui->ploter->outPut();
-    ui->ploterAll->Pen = QPen(QBrush(QColor(89, 172, 255)), 1);
+    ui->ploter->Pen = QPen(QBrush(QColor(89, 172, 255)), 1);
     ui->setupUi(this);
 
 }
@@ -49,7 +50,6 @@ void MainWindow::update(Notify noti)
                  QString path=playList->media(i).canonicalUrl().toLocalFile();
                  if(!path.isEmpty())
                  {
-
                      QString filename=path.split("/").last();
                      //qDebug()<<filename;
                      QString index;
@@ -57,6 +57,9 @@ void MainWindow::update(Notify noti)
                      index=index+".   ";
                      index=index+filename;
                      ui->listWidget->addItem(index);
+                     QFont f;
+                     f.setPointSize(15);
+                     ui->listWidget->setFont(f);
                  }
              }
              break;
@@ -64,6 +67,11 @@ void MainWindow::update(Notify noti)
        case Notifys::ChangeFreq:
           {
               qDebug()<<"Frequency has changed in view!";
+              break;
+          }
+       case Notifys::ChangeTone:
+          {
+              qDebug()<<"Tone has changed in view!";
               break;
           }
        case Notifys::failed:
@@ -82,6 +90,9 @@ void MainWindow::playerinit()
     connect(player.get(),player->positionChanged,this,slot_positionChanged);//滑块的位置随着歌曲进度改变
     connect(player.get(),player->durationChanged,this,slot_rangechanged);//滑块的范围随着歌曲改变而改变
     connect(playList.get(),playList->currentIndexChanged,this,slot_updateList);
+    QFont ft;
+    ft.setPointSize(20);
+    ui->PositionLable->setFont(ft);
 }
 void MainWindow::mainwindowinit()
 {
@@ -89,6 +100,82 @@ void MainWindow::mainwindowinit()
     connect(&tone,SIGNAL(toneReturn(QString)),this,SLOT(getTone(QString)));
     connect(ui->actionFrequency,SIGNAL(triggered()),this,SLOT(cmdFrequency()));
     connect(&frequency,SIGNAL(frequencyReturn(double)),this,SLOT(getFrequency(double)));
+    connect(&timer,SIGNAL(timeout()),this,SLOT(onTimer()));
+    connect(ui->actionAdd,SIGNAL(triggered()),this,SLOT(cmdAdd()));
+    connect(ui->actionPause,SIGNAL(triggered()),this,SLOT(cmdPause()));
+    connect(ui->actionPlay,SIGNAL(triggered()),this,SLOT(cmdPlay()));
+    connect(ui->actionStop,SIGNAL(triggered()),this,SLOT(cmdStop()));
+    connect(ui->actionLast,SIGNAL(triggered()),this,SLOT(cmdLast()));
+    connect(ui->actionNext,SIGNAL(triggered()),this,SLOT(cmdNext()));
+    connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(ui->actionAboutThis,SIGNAL(triggered()),this,SLOT(cmdAboutThis()));
+}
+void MainWindow::cmdAboutThis()
+{
+    QMessageBox::about(this, tr("关于本产品"), tr("<h2>MiniAudio 1.0"));
+}
+
+void MainWindow::cmdAdd()
+{
+    qDebug()<<"hhhhh";
+    QString initialName=QDir::homePath();
+    QStringList pathList=QFileDialog::getOpenFileNames(this, tr("选择文件"), initialName, tr("*.wav *mp3"));
+    vector<QString>temp;
+    for(int i=0; i<pathList.size(); ++i)
+    {
+        QString path=QDir::toNativeSeparators(pathList.at(i));
+        temp.push_back(path);
+     }
+    Params param;
+
+    param.setstring(temp);
+    addMusicToListCommand->setParams(param);
+    addMusicToListCommand->exec();
+}
+void MainWindow::cmdLast()
+{
+    int currentIndex=playList->currentIndex();
+    if(--currentIndex==-1)currentIndex=0;
+    playList->setCurrentIndex(currentIndex);
+    cmdPlay();
+}
+void MainWindow::cmdNext()
+{
+    int currentIndex=playList->currentIndex();
+    if(++currentIndex==playList->mediaCount())currentIndex=0;
+    playList->setCurrentIndex(currentIndex);
+    cmdPlay();
+}
+void MainWindow::cmdPlay(){
+    qDebug()<<"我要放歌啦！";
+     player->play();
+   //  player->setVolume(0);
+     QString strFile = QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
+     qDebug()<<strFile;
+     plotAllWav(strFile.toLocal8Bit().data());
+     //显示当前播放歌曲
+     QString f=QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
+     f=f.split("\\").last();
+     ui->MusicName->setText(f);
+     QFont ft;
+     ft.setPointSize(20);
+     ui->MusicName->setFont(ft);
+
+     timer.start(400);
+}
+void MainWindow::cmdPause()
+{
+    player->pause();
+    timer.stop();
+}
+void MainWindow::cmdStop()
+{
+        player->stop();
+        timer.stop();
+}
+void MainWindow::cmdTone()
+{
+      tone.exec();
 }
 void MainWindow::cmdFrequency()
 {
@@ -124,49 +211,30 @@ void MainWindow::getTone(QString tonevalue)
     toneChangeCommand->exec();
 }
 
-//打开文件（可同时打开多个）
-void MainWindow::on_AddMuiscButton_clicked()
+
+void MainWindow::plotAllWav(char *fileName)
 {
-    QString initialName=QDir::homePath();
-    QStringList pathList=QFileDialog::getOpenFileNames(this, tr("选择文件"), initialName, tr("*.wav *mp3"));
-    vector<QString>temp;
-    for(int i=0; i<pathList.size(); ++i)
+    FMOD_System_CreateSound(system, fileName, FMOD_2D | FMOD_SOFTWARE | FMOD_CREATESAMPLE, 0, &sound);
+    uint bytes, len1, len2;
+    void *ptr1, *ptr2;
+    FMOD_Sound_GetLength(sound, &bytes, FMOD_TIMEUNIT_PCMBYTES);
+    FMOD_Sound_Lock(sound, 0, bytes, &ptr1, &ptr2, &len1, &len2);
+
+    bytes /= 2;
+    int step= 1, len= bytes;
+    if (bytes > 10000)
     {
-        QString path=QDir::toNativeSeparators(pathList.at(i));
-        temp.push_back(path);
-     }
-    Params param;
-
-    param.setstring(temp);
-    addMusicToListCommand->setParams(param);
-    addMusicToListCommand->exec();
+        len = 10000;
+        step= (int)(bytes / len);
+    }
+    QVector<float>wavAll(10000);
+    short* ps = (short*)ptr1;
+    for (int i= 0, n = 0; n< len; i+= step, n++)
+        wavAll[n] = ps[i];
+    FMOD_Sound_Unlock(sound, ptr1, ptr2, len1, len2);
+    FMOD_Sound_Release(sound);
+    ui->ploterAll->outPut(wavAll);
 }
-void MainWindow::cmdTone()
-{
-      tone.exec();
-}
-
-void MainWindow::on_PlayButton_clicked()
-{
-      // playList->setCurrentIndex(ui->listWidget->currentRow());
-       player->play();
-       //qDebug()<<player->mediaStream()->readAll().size();
-
-       //显示当前播放歌曲
-       QString f=QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
-       f=f.split("\\").last();
-       ui->MusicName->setText(f);
-}
-void MainWindow::on_PauseButton_clicked()
-{
-    player->pause();
-}
-void MainWindow::on_stopButton_clicked()
-{
-    player->stop();
-}
-
-
 
 //滑块调整进度
 void MainWindow::on_horizontalSlider_valueChanged(int value)
@@ -184,45 +252,25 @@ void MainWindow::slot_positionChanged(qint64 position)
 
     QTime duration(0,position/60000,qRound((position%60000)/1000.0));
     ui->PositionLable->setText(duration.toString(tr("mm:ss")));
+
     ui->horizontalSlider->setValue(position);
+    QFont ft;
+    ft.setPointSize(20);
+    ui->PositionLable->setFont(ft);
 
    // qDebug()<<position;
-}
-
-
-
-void MainWindow::on_NextButton_clicked()
-{
-    int currentIndex=playList->currentIndex();
-    if(++currentIndex==playList->mediaCount())currentIndex=0;
-    playList->setCurrentIndex(currentIndex);
-    player->play();
-    QString f=QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
-    f=f.split("\\").last();
-    ui->MusicName->setText(f);
-}
-
-void MainWindow::on_LastButton_clicked()
-{
-    int currentIndex=playList->currentIndex();
-    if(--currentIndex==-1)currentIndex=0;
-    playList->setCurrentIndex(currentIndex);
-    player->play();
-    QString f=QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
-    f=f.split("\\").last();
-    ui->MusicName->setText(f);
 }
 
 void MainWindow::slot_updateList(int value)
 {
     ui->listWidget->setCurrentRow(value);
     ui->listWidget->currentItem()->setSelected(true);
-    qDebug()<<"设置当前序号"<<ui->listWidget->currentIndex().row();
+   /* qDebug()<<"设置当前序号"<<ui->listWidget->currentIndex().row();
     qDebug()<<"当前参数value"<<value;
     qDebug()<<"列表项目数量"<<ui->listWidget->count();
     qDebug()<<"列表当前项目序号"<<ui->listWidget->currentRow();
     qDebug()<<"列表当前项目序号"<<ui->listWidget->currentIndex().row();
-    qDebug()<<"歌单当前序号"<<playList->currentIndex();
+    qDebug()<<"歌单当前序号"<<playList->currentIndex();*/
 
     //item->setSelected(true);
 }
@@ -231,5 +279,44 @@ void MainWindow::on_listWidget_doubleClicked(const QModelIndex &index)
 {
     ui->MusicName->setText(ui->listWidget->currentItem()->text());
     playList->setCurrentIndex(ui->listWidget->currentRow());
-    player->play();
+    cmdPlay();
+}
+void MainWindow::onTimer()
+{
+    /*float *dat = new float[16384];
+    FMOD_System_GetWaveData(system, dat, 16384, 0);
+    //FMOD_System_GetSpectrum(system, dat, 8192, 1, FMOD_DSP_FFT_WINDOW_RECT); 频谱
+    for (int i = 0, n = 0; i < 16384; i+= 8, n++)
+        wav[n] = dat[i];
+    ui->ploter->outPut(wav);
+    delete [] dat;*/
+    QString strFile = QDir::toNativeSeparators(playList->currentMedia().canonicalUrl().toLocalFile());
+    FMOD_System_CreateSound(system, strFile.toLocal8Bit().data(), FMOD_2D | FMOD_SOFTWARE | FMOD_CREATESAMPLE, 0, &sound);
+    uint bytes, len1, len2;
+    void *ptr1, *ptr2;
+    FMOD_Sound_GetLength(sound, &bytes, FMOD_TIMEUNIT_PCMBYTES);
+    FMOD_Sound_Lock(sound, 0, bytes, &ptr1, &ptr2, &len1, &len2);
+
+    bytes /= 2;
+    int step= 1, len= bytes;
+
+    printf("%d",(int)bytes);
+    if (bytes > 10000)
+    {
+        len = 10000;
+        step= (int)(bytes / len);
+    }
+    double rate=1.0*player->position()/player->duration();
+              qDebug()<<"这首歌的长度"<<player->duration();
+              qDebug()<<"这首歌现在的进度"<<player->position();
+             // qDebug()<<rate<<"  "<<"   "<<len;
+    int bu=rate*len;
+    qDebug()<<"现在的段数"<<bu;
+    QVector<float>wave(500);
+    short* ps = (short*)ptr1;
+    for (int i= bu, n = 0; n< 500; i+= step, n++)
+        wave[n] = ps[i];
+    FMOD_Sound_Unlock(sound, ptr1, ptr2, len1, len2);
+    FMOD_Sound_Release(sound);
+    ui->ploter->outPut(wave);
 }

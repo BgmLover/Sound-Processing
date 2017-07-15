@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include"src/Common/Observer.h"
 #include"src/Common/BaseCommand.h"
+#include "ui_mainwindow.h"
 #include<memory>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
@@ -16,6 +17,7 @@
 #include<QObject>
 #include"src/View/Plot/fmod.h"
 #include"src/View/Plot/fmod_errors.h"
+#include"src/View/Plot/curveplot.h"
 #include<QTimer>
 namespace Ui {
 class MainWindow;
@@ -40,23 +42,23 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_PlayButton_clicked();
-    void on_AddMuiscButton_clicked();
-    void on_PauseButton_clicked();
     void on_horizontalSlider_valueChanged(int value);
     void cmdTone();
     void cmdFrequency();
+    void cmdAdd();
+    void cmdPause();
+    void cmdStop();
+    void cmdLast();
+    void cmdNext();
+    void cmdPlay();
+    void cmdAboutThis();
     void getTone(QString tonevalue);
     void getFrequency(double freValue);
-
-
-    void on_stopButton_clicked();
-
-    void on_NextButton_clicked();
-
-    void on_LastButton_clicked();
-
+    void plotAllWav(char *fileName);
     void on_listWidget_doubleClicked(const QModelIndex &index);
+
+public slots:
+    void onTimer();
 
 private:
     Ui::MainWindow *ui;
@@ -68,7 +70,6 @@ private:
 
     QTimer timer;
     QVector<float>wav;
-
     FMOD_SYSTEM *system;
     FMOD_SOUND *sound;
     FMOD_CHANNEL *channel;

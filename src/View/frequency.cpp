@@ -28,4 +28,3 @@ void Frequency::on_buttonBox_rejected()
 {
      ui->doubleSpinBox->setValue(nowValue);
 }
-

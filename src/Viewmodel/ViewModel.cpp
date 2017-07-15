@@ -63,6 +63,22 @@ ViewModel::ViewModel()
          notify(noti);
          break;
         }
+       case Notifys::ChangeTone:
+       {
+         qDebug()<<"Tone has changed in viewModel!";
+         playList->clear();
+         vector<QString> s = pModel->getPaths();
+         size_t m = s.size();
+         for (i = 0; i<m; i++)
+            {
+                 QString path = pModel->getPaths().at(i);
+                 playList->addMedia(QUrl::fromLocalFile(path));
+            }
+         Notify noti;
+         noti.settype(Notifys::ChangeTone);
+         notify(noti);
+         break;
+       }
      }
  }
  void ViewModel::AddMusicToList(const vector<QString>p)

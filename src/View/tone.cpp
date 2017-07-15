@@ -104,7 +104,6 @@ void Tone::on_horizontalSlider_valueChanged(int value)
     if(value==35)
         tone="B5";
     ui->ToneValue->setText(tone);
-    
 }
 
 

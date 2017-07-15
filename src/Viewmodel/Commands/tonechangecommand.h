@@ -13,4 +13,5 @@ public:
         pViewModel->changeTone(params.path[0],params.tone);
     }
 };
+
 #endif // TONECHANGECOMMAND_H

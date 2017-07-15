@@ -12,6 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = MiniAudio
 TEMPLATE = app
 
+LIBS+= $$PWD/libfmodex.a
 
 SOURCES += src/main.cpp \
     src/View/mainwindow.cpp \
@@ -75,7 +76,13 @@ HEADERS  += src/View/mainwindow.h \
     src/View/Plot/fmod_errors.h \
     src/View/Plot/curveplot.h
 
-
 FORMS    += src/View/mainwindow.ui \
     src/View/tone.ui \
     src/View/frequency.ui
+
+RESOURCES += \
+    myimage.qrc
+
+
+
+
